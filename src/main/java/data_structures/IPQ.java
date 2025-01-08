@@ -1,7 +1,15 @@
-import java.util.*;
-import com.google.common.collect.*;
+package data_structures;
+import java.util.Comparator;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 
-class IPQ<T> {
+public class IPQ<T> {
     List<Integer> heap;
     List<Integer> ki_to_hi;
     List<Integer> hi_to_ki;

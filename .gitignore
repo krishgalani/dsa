@@ -1,5 +1,6 @@
-IPQ/target
-IPQ/src/test
-IPQ/pom.xml
+pom.xml
+target
+src/test
+
 .vscode
 .DS_Store
