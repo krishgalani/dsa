@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -16,7 +17,7 @@ public class IPQ<T> {
     BiMap<T,Integer> ki;
     ArrayDeque<Integer> kiQ;
     Comparator<Integer> comparator;
-    IPQ(Comparator<Integer> comparator){
+    public IPQ(Comparator<Integer> comparator){
         heap = new ArrayList<>();
         ki_to_hi = new ArrayList<>();
         hi_to_ki = new ArrayList<>();
@@ -27,7 +28,7 @@ public class IPQ<T> {
     /* 
      * kv_pairs a unique mapping of key to priority  
      */
-    IPQ(Comparator<Integer> comparator, Map<T,Integer> kv_pairs){
+    public IPQ(Comparator<Integer> comparator, Map<T,Integer> kv_pairs){
         this(comparator);
         int i=0;
         for(T key : kv_pairs.keySet()){
@@ -40,15 +41,15 @@ public class IPQ<T> {
         build();
     }
     //Helper Functions
-    boolean isLowerPriority(int i, int j){
+    public boolean isLowerPriority(int i, int j){
         return comparator.compare(heap.get(i), heap.get(j)) < 0;
     }
-    void swap(int i, int j){
+    public void swap(int i, int j){
         Collections.swap(heap, i, j);
         Collections.swap(ki_to_hi, hi_to_ki.get(i), hi_to_ki.get(j));
         Collections.swap(hi_to_ki, i, j);
     }
-    void upheap(int i) {
+    public void upheap(int i) {
         if(i < heap.size()){
             while (i > 0) {
                 int parent = (i - 1) / 2;
@@ -61,7 +62,7 @@ public class IPQ<T> {
             }
         }
     }
-    void downheap(int i){
+    public void downheap(int i){
         int n = heap.size();
         if(i >= 0){
             while(i < n/2){ // i is not a leaf
@@ -79,7 +80,7 @@ public class IPQ<T> {
     }
     //Main Functions
     //insertion
-    void insert(T key, int value) {
+    public void insert(T key, int value) {
         // Check for duplicate keys
         if (ki.containsKey(key)) {
             throw new IllegalArgumentException("Key already exists: " + key);
@@ -100,7 +101,7 @@ public class IPQ<T> {
         upheap(heap.size() - 1);
     }
     //removal
-    void remove(T key){
+    public void remove(T key){
         if (!ki.containsKey(key)) {
             throw new IllegalArgumentException("Key doesn't exist: " + key);
         } 
@@ -117,7 +118,7 @@ public class IPQ<T> {
         }
     }
     //update
-    void updatePriority(T key, int value){
+    public void updatePriority(T key, int value){
         if (!ki.containsKey(key)) {
             throw new IllegalArgumentException("Key doesn't exist: " + key);
         } 
@@ -128,7 +129,7 @@ public class IPQ<T> {
         downheap(heap_index);
     }
     //pop
-    T pop(){
+    public T pop(){
         if(heap.isEmpty()){
             throw new NoSuchElementException("Cannot pop an empty heap");
         }
@@ -137,24 +138,53 @@ public class IPQ<T> {
         return key;
     }
     //peek
-    T peek(){
+    public T peek(){
         if(heap.isEmpty()){
             throw new NoSuchElementException("Cannot peek an empty heap");
         }
         return ki.inverse().get(hi_to_ki.get(0));
     }
     //build
-    void build(){
+    public void build(){
         for(int i=heap.size()/2-1; i >= 0; i--){
             downheap(i);
         }
     }
-    //find
-    int find(T key){
+    public int getPriority(T key){
+       return heap.get(findHeapIndex(key));
+    }
+    public boolean decreaseKey(T key, int newValue){
+        if (!ki.containsKey(key)) {
+            throw new IllegalArgumentException("Key doesn't exist: " + key);
+        } 
+        if(getPriority(key) > newValue){
+            updatePriority(key, newValue);
+            return true;
+        }
+        return false;
+    }
+    public boolean increaseKey(T key, int newValue){
+        if (!ki.containsKey(key)) {
+            throw new IllegalArgumentException("Key doesn't exist: " + key);
+        } 
+        if(getPriority(key) < newValue){
+            updatePriority(key, newValue);
+            return true;
+        }
+        return false;
+
+    }
+    public int findHeapIndex(T key){
         if (!ki.containsKey(key)) {
             throw new IllegalArgumentException("Key doesn't exist: " + key);
         } 
         return ki_to_hi.get(ki.get(key));
+    }
+    public boolean containsKey(T key){
+        return ki.containsKey(key);
+    }
+    public boolean isEmpty(){
+        return ki.isEmpty();
     }
 }
 
