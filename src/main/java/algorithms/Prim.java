@@ -12,7 +12,7 @@ class Prim {
     List<List<Integer>> mstEdges;
     List<Map<Integer,Integer>> G;
     //Assume G is an adjacency list of vertex to pairs of neighboring verteces and their respective cost
-    List<List<Integer>> run(List<Map<Integer,Integer>> adj, int s){
+    public List<List<Integer>> run(List<Map<Integer,Integer>> adj, int s){
         this.G = adj;
         final int m = G.size()-1;
         mstEdges = new ArrayList<>();
