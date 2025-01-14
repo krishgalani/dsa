@@ -139,7 +139,7 @@ public class IPQ<T> {
     }
     //peek
     public T peek(){
-        if(heap.isEmpty()){
+        if(isEmpty()){
             throw new NoSuchElementException("Cannot peek an empty heap");
         }
         return ki.inverse().get(hi_to_ki.get(0));
