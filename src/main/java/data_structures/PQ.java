@@ -5,15 +5,16 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Collections;
-public class PQ{
-    List<Integer> heap;
-    Comparator<Integer> comparator;
 
-    public PQ(Comparator c){
+public class PQ{
+    public List<Integer> heap;
+    public Comparator<Integer> comparator;
+
+    public PQ(Comparator<Integer> c){
         heap = new ArrayList<>();
         comparator = c;
     }
-    public PQ(Comparator c, int[] keys){
+    public PQ(Comparator<Integer> c, int[] keys){
         this(c);
         //build_heap
         for(int i : keys){
@@ -23,6 +24,9 @@ public class PQ{
     }
     boolean inBounds(int i){
         return 0 <= i && i < heap.size();
+    }
+    int size(){
+        return heap.size();
     }
     boolean isLowerPriority(int a, int b){
         return comparator.compare(a,b) <= 0;
@@ -78,6 +82,9 @@ public class PQ{
     public void add(int i){
         heap.add(i);
         upheap(heap.size()-1);
+    }
+    public boolean empty() {
+        return heap.isEmpty();
     }
     public int pushpop(int i){
         if(isLowerPriority(heap.get(0),i)){
