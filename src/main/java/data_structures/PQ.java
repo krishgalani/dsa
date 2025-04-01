@@ -1,15 +1,14 @@
 package data_structures;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Collections;
 
-public class PQ{
+public class PQ {
     public List<Integer> heap;
     public Comparator<Integer> comparator;
-
     public PQ(Comparator<Integer> c){
         heap = new ArrayList<>();
         comparator = c;
